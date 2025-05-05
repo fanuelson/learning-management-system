@@ -20,15 +20,9 @@ public class CursoService {
     }
 
     public Curso editar(final Long id, final Curso curso) {
-        validateNomeExists(curso.getNome());
         final var cursoSalvo = findById(id);
-        return cursoDataGateway.save(
-                cursoSalvo
-                        .withNome(curso.getNome())
-                        .withDataInicio(curso.getDataInicio())
-                        .withConcluido(curso.isConcluido())
-
-        );
+        validateNomeExists(curso.getNome());
+        return cursoDataGateway.save(cursoSalvo.merge(curso));
     }
 
     public void remover(final Long idCurso) {
