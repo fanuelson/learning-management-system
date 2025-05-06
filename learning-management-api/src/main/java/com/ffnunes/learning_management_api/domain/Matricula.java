@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Matricula {
-    private Long idEstudante;
-    private Long idCurso;
+    private Long estudanteId;
+    private Long cursoId;
 }

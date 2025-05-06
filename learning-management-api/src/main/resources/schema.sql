@@ -1,8 +1,10 @@
 SELECT * FROM INFORMATION_SCHEMA.TABLES;
 
+DROP TABLE IF EXISTS TAREFA;
 DROP TABLE IF EXISTS MATRICULA;
 DROP TABLE IF EXISTS ESTUDANTE;
 DROP TABLE IF EXISTS CURSO;
+DROP TABLE IF EXISTS CATEGORIA_TAREFA;
 
 CREATE TABLE IF NOT EXISTS ESTUDANTE (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -18,8 +20,8 @@ CREATE TABLE IF NOT EXISTS CURSO (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     data_inicio DATE NOT NULL,
-    deletado BOOLEAN NOT NULL,
-    concluido BOOLEAN NOT NULL
+    data_conclusao DATE NOT NULL,
+    deletado BOOLEAN NOT NULL
 );
 ALTER SEQUENCE curso_seq RESTART WITH 1 INCREMENT BY 1;
 
@@ -31,22 +33,39 @@ CREATE TABLE IF NOT EXISTS MATRICULA (
     CONSTRAINT fk_matricula_curso FOREIGN KEY (curso_id) REFERENCES curso(id)
 );
 
+
 CREATE TABLE IF NOT EXISTS CATEGORIA_TAREFA (
-    name VARCHAR(255) PRIMARY KEY
+    nome VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS TAREFA (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    estudante_id BIGINT NOT NULL,
+    curso_id BIGINT NOT NULL,
+    categoria_tarefa VARCHAR(255) NOT NULL,
+    data DATE NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+--    tempo_gasto DATETIME NOT NULL,
+
+    CONSTRAINT fk_tarefa_matricula FOREIGN KEY (estudante_id, curso_id)
+        REFERENCES MATRICULA(estudante_id, curso_id),
+
+    CONSTRAINT fk_tarefa_categoria FOREIGN KEY (categoria_tarefa)
+            REFERENCES CATEGORIA_TAREFA(nome)
 );
 
 delete from categoria_tarefa;
-insert into categoria_tarefa (name) values ('PESQUISA');
-insert into categoria_tarefa (name) values ('PRATICA');
-insert into categoria_tarefa (name) values ('ASSISTIR_VIDEOAULA');
+insert into categoria_tarefa (nome) values ('PESQUISA');
+insert into categoria_tarefa (nome) values ('PRATICA');
+insert into categoria_tarefa (nome) values ('ASSISTIR_VIDEOAULA');
 
 delete from curso where id > 0;
-insert into curso (concluido,data_inicio,deletado,nome, id)
-values (false,'2025-05-01',false,'Ingles', select next value for curso_seq);
-insert into curso (concluido,data_inicio,deletado,nome, id)
-values (false,'2025-05-01',false,'Portugues', select next value for curso_seq);
-insert into curso (concluido,data_inicio,deletado,nome, id)
-values (false,'2025-05-01',false,'Matemática', select next value for curso_seq);
+insert into curso (data_inicio, data_conclusao, deletado, nome, id)
+values ('2025-05-01', '2025-11-01',false,'Ingles', select next value for curso_seq);
+insert into curso (data_inicio, data_conclusao, deletado, nome, id)
+values ('2025-05-01', '2025-11-01',false,'Portugues', select next value for curso_seq);
+insert into curso (data_inicio, data_conclusao, deletado, nome, id)
+values ('2025-05-01','2025-11-01',false,'Matemática', select next value for curso_seq);
 
 
 delete from estudante where id > 0;
