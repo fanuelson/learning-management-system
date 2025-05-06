@@ -6,6 +6,8 @@ import com.ffnunes.learning_management_api.gateways.CursoDataGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CursoService {
@@ -37,6 +39,10 @@ public class CursoService {
         return cursoDataGateway
                 .findByIdAndDeletado(id, false)
                 .orElseThrow(() -> new NotFoundException("Curso com id: %s não encontrado".formatted(id)));
+    }
+
+    public List<Curso> findAll() {
+        return this.cursoDataGateway.findAll();
     }
 
     private void validateNomeExists(final String nome) {
