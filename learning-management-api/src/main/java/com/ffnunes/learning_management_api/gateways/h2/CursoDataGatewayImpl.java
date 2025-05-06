@@ -7,6 +7,7 @@ import com.ffnunes.learning_management_api.gateways.h2.repositories.CursoReposit
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -29,6 +30,11 @@ public class CursoDataGatewayImpl implements CursoDataGateway {
     @Override
     public Optional<Curso> findByNomeAndDeletado(final String nome, final boolean deletado) {
         return repository.findByNomeAndDeletado(nome, deletado).map(CursoEntity::toDomain);
+    }
+
+    @Override
+    public List<Curso> findAll() {
+        return repository.findAll().stream().map(CursoEntity::toDomain).toList();
     }
 
 }

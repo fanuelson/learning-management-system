@@ -1,10 +1,8 @@
-SELECT * FROM INFORMATION_SCHEMA.TABLES;
-
-DROP TABLE IF EXISTS TAREFA;
-DROP TABLE IF EXISTS MATRICULA;
-DROP TABLE IF EXISTS ESTUDANTE;
-DROP TABLE IF EXISTS CURSO;
-DROP TABLE IF EXISTS CATEGORIA_TAREFA;
+--DROP TABLE IF EXISTS TAREFA;
+--DROP TABLE IF EXISTS MATRICULA;
+--DROP TABLE IF EXISTS ESTUDANTE;
+--DROP TABLE IF EXISTS CURSO;
+--DROP TABLE IF EXISTS CATEGORIA_TAREFA;
 
 CREATE TABLE IF NOT EXISTS ESTUDANTE (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -14,7 +12,6 @@ CREATE TABLE IF NOT EXISTS ESTUDANTE (
     telefone VARCHAR(25) NOT NULL,
     data_nascimento DATE NOT NULL
 );
-ALTER SEQUENCE estudante_seq RESTART WITH 1 INCREMENT BY 1;
 
 CREATE TABLE IF NOT EXISTS CURSO (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +20,6 @@ CREATE TABLE IF NOT EXISTS CURSO (
     data_conclusao DATE NOT NULL,
     deletado BOOLEAN NOT NULL
 );
-ALTER SEQUENCE curso_seq RESTART WITH 1 INCREMENT BY 1;
 
 CREATE TABLE IF NOT EXISTS MATRICULA (
     estudante_id BIGINT NOT NULL,
@@ -58,18 +54,18 @@ delete from categoria_tarefa;
 insert into categoria_tarefa (nome) values ('PESQUISA');
 insert into categoria_tarefa (nome) values ('PRATICA');
 insert into categoria_tarefa (nome) values ('ASSISTIR_VIDEOAULA');
-
+--
 delete from curso where id > 0;
-insert into curso (data_inicio, data_conclusao, deletado, nome, id)
-values ('2025-05-01', '2025-11-01',false,'Ingles', select next value for curso_seq);
-insert into curso (data_inicio, data_conclusao, deletado, nome, id)
-values ('2025-05-01', '2025-11-01',false,'Portugues', select next value for curso_seq);
-insert into curso (data_inicio, data_conclusao, deletado, nome, id)
-values ('2025-05-01','2025-11-01',false,'Matemática', select next value for curso_seq);
-
-
+insert into curso (data_inicio, data_conclusao, deletado, nome)
+values ('2025-05-01', '2025-11-01',false,'Ingles');
+insert into curso (data_inicio, data_conclusao, deletado, nome)
+values ('2025-05-01', '2025-11-01',false,'Portugues');
+insert into curso (data_inicio, data_conclusao, deletado, nome)
+values ('2025-05-01','2025-11-01',false,'Matemática');
+--
+--
 delete from estudante where id > 0;
-insert into estudante (email, primeiro_nome, ultimo_nome, telefone, data_nascimento, id)
-values ('e1@gmail.com','John','Test','123','1990-10-10', select next value for estudante_seq);
-insert into estudante (email, primeiro_nome, ultimo_nome, telefone, data_nascimento, id)
-values ('e2@gmail.com','Ana','Test','123', '1995-10-10', select next value for estudante_seq);
+insert into estudante (email, primeiro_nome, ultimo_nome, telefone, data_nascimento)
+values ('e1@gmail.com','John','Test','123','1990-10-10');
+insert into estudante (email, primeiro_nome, ultimo_nome, telefone, data_nascimento)
+values ('e2@gmail.com','Ana','Test','123', '1995-10-10');
