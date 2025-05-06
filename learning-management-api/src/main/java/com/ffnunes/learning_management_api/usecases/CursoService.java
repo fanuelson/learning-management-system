@@ -14,14 +14,15 @@ public class CursoService {
 
     public Curso criar(final Curso curso) {
         validateNomeExists(curso.getNome());
+        final var dataConclusao = curso.getDataInicio().plusMonths(6);
         return cursoDataGateway.save(
-                curso.withId(null).withConcluido(false).withDeletado(false)
+                curso.withId(null).withDataConclusao(dataConclusao).withDeletado(false)
         );
     }
 
     public Curso editar(final Long id, final Curso curso) {
-        final var cursoSalvo = findById(id);
         validateNomeExists(curso.getNome());
+        final var cursoSalvo = findById(id);
         return cursoDataGateway.save(cursoSalvo.merge(curso));
     }
 
@@ -32,7 +33,7 @@ public class CursoService {
         );
     }
 
-    private Curso findById(final Long id) {
+    public Curso findById(final Long id) {
         return cursoDataGateway
                 .findByIdAndDeletado(id, false)
                 .orElseThrow(() -> new NotFoundException("Curso com id: %s não encontrado".formatted(id)));

@@ -14,13 +14,14 @@ public class EditarCursoRequest {
     @FutureOrPresent
     private LocalDate dataInicio;
 
-    private boolean concluido;
+    @FutureOrPresent
+    private LocalDate dataConclusao;
 
     public Curso toDomain() {
         return Curso.builder()
                 .nome(nome)
                 .dataInicio(dataInicio)
-                .concluido(concluido)
+                .dataConclusao(dataConclusao)
                 .build();
     }
 }

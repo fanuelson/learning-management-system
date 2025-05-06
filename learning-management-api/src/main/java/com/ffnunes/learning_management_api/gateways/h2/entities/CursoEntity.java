@@ -26,8 +26,8 @@ public class CursoEntity {
     @Column(name = "data_inicio")
     private LocalDate dataInicio;
 
-    @Column(name = "concluido")
-    private boolean concluido;
+    @Column(name = "data_conclusao")
+    private LocalDate dataConclusao;
 
     @Column(name = "deletado")
     private boolean deletado;
@@ -37,7 +37,7 @@ public class CursoEntity {
                 .id(curso.getId())
                 .nome(curso.getNome())
                 .dataInicio(curso.getDataInicio())
-                .concluido(curso.isConcluido())
+                .dataConclusao(curso.getDataConclusao())
                 .deletado(curso.isDeletado())
                 .build();
     }
@@ -47,7 +47,7 @@ public class CursoEntity {
                 .id(id)
                 .nome(nome)
                 .dataInicio(dataInicio)
-                .concluido(concluido)
+                .dataConclusao(dataConclusao)
                 .deletado(deletado)
                 .build();
     }

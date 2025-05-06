@@ -15,13 +15,13 @@ public class Curso {
     private Long id;
     private String nome;
     private LocalDate dataInicio;
-    private boolean concluido;
+    private LocalDate dataConclusao;
     private boolean deletado;
 
     public Curso merge(final Curso curso) {
         nome = StringUtils.isBlank(curso.getNome()) ? nome : curso.getNome();
         dataInicio = ObjectUtils.defaultIfNull(curso.getDataInicio(), dataInicio);
-        concluido = curso.concluido;
+        dataConclusao = ObjectUtils.defaultIfNull(curso.getDataConclusao(), dataConclusao);
         return this;
     }
 
