@@ -11,12 +11,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatriculaService {
 
+    public static final int LIMITE_MAXIMO_MATRICULAS = 3;
     private final MatriculaDataGateway matriculaDataGateway;
     private final CursoService cursoService;
 
     public void matricular(final Matricula matricula) {
         List<Matricula> matriculas = matriculaDataGateway.findAllByEstudanteId(matricula.getEstudanteId());
-        if (matriculas.size() >= 3) {
+        if (matriculas.size() >= LIMITE_MAXIMO_MATRICULAS) {
             throw new IllegalArgumentException("Limite máximo de 3 cursos matriculados atingido");
         }
 
