@@ -19,10 +19,11 @@ import { ValidationService } from '@core/services/validation.service';
 
 import { errorTailorImports } from "@core/components/validation";
 import { NotificationService } from '@core/services/notification.service';
-import { CursoService } from '@core/services/curso.service';
+import { MatriculaService } from '@features/matricula/matricula.service';
+import { TarefaService } from '@features/matricula/tarefa.service';
 
 @Component({
-    selector: 'app-curso-form',
+    selector: 'app-tarefa-form',
     standalone: true,
     imports: [
         ReactiveFormsModule,
@@ -38,35 +39,39 @@ import { CursoService } from '@core/services/curso.service';
         MatIconModule,
         MatSelectModule
     ],
-    templateUrl: './curso-form.component.html',
-    styleUrl: './curso-form.component.scss',
-    providers: [CursoService]
+    templateUrl: './tarefa-form.component.html',
+    styleUrl: './tarefa-form.component.scss',
+    providers: [MatriculaService]
 })
-export class CursoFormComponent implements OnInit {
+export class TarefaFormComponent implements OnInit {
     private readonly fb = inject(UntypedFormBuilder);
     private readonly router = inject(Router);
     private readonly validationService = inject(ValidationService);
-    private readonly cursoService = inject(CursoService);
+    private readonly matriculaService = inject(MatriculaService);
+    private readonly tarefaService = inject(TarefaService);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly notificationService = inject(NotificationService);
 
-    cursoForm!: UntypedFormGroup;
+    form!: UntypedFormGroup;
     loading = signal<boolean>(false);
     isEditMode = signal<boolean>(false);
-    curso = signal<any>(null);
+    obj = signal<any>(null);
 
-    formValid = computed(() => this.cursoForm?.valid ?? false);
+    estudanteId = signal<any>(null);
+    cursoId = signal<any>(null);
+
+    formValid = computed(() => this.form?.valid ?? false);
 
     onSubmit(): void {
         if (this.formValid()) {
-            const curso = this.cursoForm.value;
+            const tarefa = this.form.value;
             this.loading.set(true);
 
             if (this.isEditMode()) {
-                this.cursoService.update(curso).subscribe({
+                this.tarefaService.update(tarefa).subscribe({
                     next: () => {
                         this.notificationService.success('Salvo');
-                        this.router.navigate(['/cursos']);
+                        this.back()
                     },
                     error: (error) => {
                         this.loading.set(false);
@@ -74,10 +79,10 @@ export class CursoFormComponent implements OnInit {
                     }
                 });
             } else {
-                this.cursoService.create(curso).subscribe({
+                this.matriculaService.createTarefa(this.estudanteId(), this.cursoId(), tarefa).subscribe({
                     next: () => {
                         this.notificationService.success('Salvo');
-                        this.router.navigate(['/cursos']);
+                        this.back();
                     },
                     error: (error) => {
                         this.loading.set(false);
@@ -89,9 +94,9 @@ export class CursoFormComponent implements OnInit {
     }
 
     createForm(): void {
-        this.cursoForm = this.fb.group({
+        this.form = this.fb.group({
             id: ['', []],
-            nome: [
+            categoriaTarefa: [
                 '',
                 [
                     Validators.required,
@@ -99,34 +104,43 @@ export class CursoFormComponent implements OnInit {
                     Validators.maxLength(35),
                 ],
             ],
-            dataInicio:[],
+            data: [],
+            descricao: [
+                '',
+                [
+                    Validators.required,
+                    Validators.minLength(2),
+                    Validators.maxLength(35),
+                ],
+            ],
+            
         });
     }
 
     reset(): void {
-        const curso = this.cursoForm.value;
-        if (curso.id) {
-            this.getCursoDetails();
+        const tarefa = this.form.value;
+        if (tarefa.id) {
+            this.getTarefaDetails();
         } else {
-            this.cursoForm.reset();
+            this.form.reset();
         }
     }
     submit(): void {
-        const curso = this.cursoForm.value;
-        if (curso.id) {
-            this.update(curso);
+        const tarefa = this.form.value;
+        if (tarefa.id) {
+            this.update(tarefa);
         } else {
-            delete curso.id;
-            this.save(curso);
+            delete tarefa.id;
+            this.save(tarefa);
         }
     }
 
-    save(curso: any): void {
+    save(tarefa: any): void {
         this.loading.set(true);
-        this.cursoService.create(curso).subscribe({
+        this.matriculaService.createTarefa(this.estudanteId(), this.cursoId(), tarefa).subscribe({
             next: (data) => {
                 this.notificationService.success('Salvo');
-                this.router.navigate(['/cursos']);
+                this.back()
             },
             error: (error) => {
                 this.loading.set(false);
@@ -135,12 +149,12 @@ export class CursoFormComponent implements OnInit {
         });
     }
 
-    update(curso: any): void {
+    update(tarefa: any): void {
         this.loading.set(true);
-        this.cursoService.update(curso).subscribe({
+        this.tarefaService.update(tarefa).subscribe({
             next: (data) => {
                 this.notificationService.success('Salvo');
-                this.router.navigate(['/cursos']);
+                this.back()
             },
             error: (error) => {
                 this.loading.set(false);
@@ -150,21 +164,27 @@ export class CursoFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.estudanteId.set(this.activatedRoute.snapshot.paramMap.get('estudanteId'));
+        this.cursoId.set(this.activatedRoute.snapshot.paramMap.get('cursoId'));
         this.createForm();
-        this.getCursoDetails();
+        this.getTarefaDetails();
     }
 
-    private getCursoDetails() {
-        const cursoDetails = this.activatedRoute.snapshot.data.cursoDetails;
-        if (cursoDetails) {
-            this.curso.set(cursoDetails);
+    private getTarefaDetails() {
+        const tarefaDetails = this.activatedRoute.snapshot.data.tarefaDetails;
+        if (tarefaDetails) {
+            this.obj.set(tarefaDetails);
             this.isEditMode.set(true);
-            this.cursoForm.patchValue(cursoDetails);
-            this.cursoForm.controls.dataInicio.setValue(this.formatDate(cursoDetails.dataInicio));
+            this.form.patchValue(tarefaDetails);
+            this.form.controls.data.setValue(this.formatDate(tarefaDetails.data));
         }
     }
     private formatDate(jsonDate: string): string {
       const date = new Date(jsonDate);
       return date.toISOString().split('T')[0]; // yyyy-MM-dd format
+    }
+
+    back(): void {
+        this.router.navigateByUrl(`/matriculas/${this.estudanteId()}/cursos/${this.cursoId()}`);
     }
 }

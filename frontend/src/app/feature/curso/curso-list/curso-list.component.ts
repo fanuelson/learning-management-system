@@ -12,9 +12,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NotificationService } from '@core/services/notification.service';
-import { CursoService } from '../curso.service';
 import { HasRoleDirective } from '@core/directives/role.directive';
 import { AuthStateService } from '@core/services/auth-state.service';
+import { CursoService } from '@core/services/curso.service';
 
 @Component({
     selector: 'app-curso-list',

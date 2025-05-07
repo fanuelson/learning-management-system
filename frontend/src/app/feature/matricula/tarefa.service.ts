@@ -8,37 +8,29 @@ import { environment } from "@environments/environment";
 @Injectable({
   providedIn: 'root'
 })
-export class MatriculaService {
+export class TarefaService {
   private readonly http = inject(HttpClient);
   private readonly snackBar = inject(MatSnackBar);
 
-  getAllCursosMatriculados(estudanteId: number|string) {
-    return this.http.get<any[]>(environment.apiEndpoint + `/estudantes/${estudanteId}/cursos`).pipe(
+  getById(_id: string) {
+    return this.http.get(environment.apiEndpoint + '/tarefas/' + _id).pipe(
       map((res: any) => res),
       catchError(this.handleErrorObservable)
     );
   }
 
-  getAllTarefas(estudanteId: string|number, cursoId: string|number) {
-    return this.http.get(environment.apiEndpoint + `/estudantes/${estudanteId}/cursos/${cursoId}/tarefas`).pipe(
-      map((res: any) => res),
-      catchError(this.handleErrorObservable)
-    );
-  }
-
-  createTarefa(estudanteId, cursoId, tarefa) {
+  update(tarefa: any) {
     return this.http
-      .post(environment.apiEndpoint + `/estudantes/${estudanteId}/cursos/${cursoId}/tarefas`, tarefa)
+      .put(environment.apiEndpoint + '/tarefas/' + tarefa.id, tarefa)
       .pipe(
         map((res: any) => res),
         catchError(this.handleErrorObservable)
       );
   }
 
-
   delete(_id: string) {
     return this.http
-      .delete(environment.apiEndpoint + '/cursos/' + _id)
+      .delete(environment.apiEndpoint + '/tarefas/' + _id)
       .pipe(
         map((res: any) => res),
         catchError(this.handleErrorObservable)
