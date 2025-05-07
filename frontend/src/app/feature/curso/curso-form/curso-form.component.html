@@ -1,0 +1,57 @@
+<div class="container mx-auto p-4">
+  <div class="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden transition-all duration-300">
+    <!-- Header -->
+    <div class="p-6 bg-primary text-white">
+      <div class="flex items-center gap-4">
+        <button mat-icon-button routerLink="/cursos" matTooltip="Voltar para cursos">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h1 class="text-2xl font-bold">{{isEditMode() ? 'Editar Curso' : 'Registrar Curso'}}</h1>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="p-6">
+      <form [formGroup]="cursoForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Basic Information -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 max-w-5xl mx-auto">
+          
+          <!-- Nome -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" required>
+          </mat-form-field>
+
+          <!-- Data inicio -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Data de inicio</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataInicio">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex justify-end space-x-4 max-w-5xl mx-auto pt-4">
+          <button mat-stroked-button type="button" routerLink="/cursos">
+            <mat-icon class="mr-2">arrow_back</mat-icon>
+            Back
+          </button>
+          <button mat-stroked-button type="button" (click)="reset()" [disabled]="loading()">
+            <mat-icon class="mr-2">refresh</mat-icon>
+            Reset
+          </button>
+          <button mat-raised-button color="accent" type="submit" [disabled]="cursoForm.invalid || loading()">
+            <div class="flex items-center">
+              <ng-container *ngIf="loading()">
+                <mat-spinner diameter="20" class="mr-2"></mat-spinner>
+              </ng-container>
+              <span>{{isEditMode() ? 'Editar' : 'Salvar'}}</span>
+            </div>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

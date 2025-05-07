@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: ./learning-management-api
+      dockerfile: Dockerfile
+    networks:
+      - lms_network
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - api
+    ports:
+      - "4200:8080"
+
+networks:
+  lms_network:
+    driver: bridge

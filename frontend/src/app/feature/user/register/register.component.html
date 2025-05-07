@@ -1,0 +1,64 @@
+<div class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="w-full max-w-xl">
+    <div class="bg-surface-container-highest rounded-xl p-8 shadow-lg transition-all duration-300">
+      <div class="text-center mb-8">
+        <h2 class="text-4xl font-bold mb-3 text-primary">Registrar estudante</h2>
+        <p class="text-sm">
+          Ou
+          <a routerLink="/login" class="text-primary hover:text-primary/80 font-medium transition-colors">
+            entrar
+          </a>
+        </p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6" errorTailor aria-label="Registration form">
+        <!-- Names Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Email -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" required>
+          </mat-form-field>
+
+          <!-- First Name -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Primeiro Nome</mat-label>
+            <input matInput formControlName="primeiroNome" required>
+          </mat-form-field>
+
+          <!-- Last Name -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Último Nome</mat-label>
+            <input matInput formControlName="ultimoNome" required>
+          </mat-form-field>
+
+          <!-- Telefone -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="telefone" required>
+          </mat-form-field>
+
+          <!-- Date of Birth -->
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Data de nascimento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dataNascimento">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+
+        <button mat-flat-button
+                color="primary"
+                type="submit"
+                class="w-full h-12 text-lg font-medium rounded-lg shadow-lg hover:shadow-primary/20 transition-all duration-300"
+                [disabled]="loading()">
+          <div class="flex items-center justify-center gap-2">
+            <mat-spinner *ngIf="loading()" [diameter]="24"></mat-spinner>
+            <span>Salvar</span>
+          </div>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
