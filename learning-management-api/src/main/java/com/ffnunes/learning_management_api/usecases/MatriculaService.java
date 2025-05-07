@@ -2,7 +2,9 @@ package com.ffnunes.learning_management_api.usecases;
 
 import com.ffnunes.learning_management_api.domain.Curso;
 import com.ffnunes.learning_management_api.domain.Matricula;
+import com.ffnunes.learning_management_api.domain.Tarefa;
 import com.ffnunes.learning_management_api.gateways.MatriculaDataGateway;
+import com.ffnunes.learning_management_api.gateways.TarefaDataGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class MatriculaService {
     public static final int LIMITE_MAXIMO_MATRICULAS = 3;
     private final MatriculaDataGateway matriculaDataGateway;
     private final CursoService cursoService;
+    private final TarefaDataGateway tarefaDataGateway;
 
     public void matricular(final Matricula matricula) {
         List<Matricula> matriculas = matriculaDataGateway.findAllByEstudanteId(matricula.getEstudanteId());
@@ -31,4 +34,11 @@ public class MatriculaService {
         return cursoService.findAllByIds(cursosIds);
     }
 
+    public void criarTarefa(final Tarefa tarefa) {
+        tarefaDataGateway.save(tarefa);
+    }
+
+    public List<Tarefa> findAllTarefas(final Matricula matricula) {
+        return tarefaDataGateway.findAllByMatriculaId(matricula);
+    }
 }

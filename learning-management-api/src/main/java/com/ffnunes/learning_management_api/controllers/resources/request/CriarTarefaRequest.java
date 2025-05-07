@@ -1,5 +1,6 @@
 package com.ffnunes.learning_management_api.controllers.resources.request;
 
+import com.ffnunes.learning_management_api.domain.Tarefa;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -13,10 +14,16 @@ public class CriarTarefaRequest {
     private LocalDate data;
 
     @NotBlank
-    private String categoria;
+    private String categoriaTarefa;
 
     @NotBlank
     private String descricao;
 
-    //TODO: toDomain
+    public Tarefa toDomain() {
+        return Tarefa.builder()
+                .data(data)
+                .categoriaTarefa(categoriaTarefa)
+                .descricao(descricao)
+                .build();
+    }
 }

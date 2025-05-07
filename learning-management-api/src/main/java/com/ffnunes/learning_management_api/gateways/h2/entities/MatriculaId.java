@@ -1,5 +1,6 @@
 package com.ffnunes.learning_management_api.gateways.h2.entities;
 
+import com.ffnunes.learning_management_api.domain.Matricula;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -21,4 +22,18 @@ public class MatriculaId implements Serializable {
 
     @Column(name = "curso_id")
     private Long cursoId;
+
+    public static MatriculaId create(final Matricula matricula) {
+        return MatriculaId.builder()
+                .estudanteId(matricula.getEstudanteId())
+                .cursoId(matricula.getCursoId())
+                .build();
+    }
+
+    public Matricula toDomain() {
+        return Matricula.builder()
+                .estudanteId(estudanteId)
+                .cursoId(cursoId)
+                .build();
+    }
 }

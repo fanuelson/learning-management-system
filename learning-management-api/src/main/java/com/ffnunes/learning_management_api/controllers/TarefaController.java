@@ -1,6 +1,8 @@
 package com.ffnunes.learning_management_api.controllers;
 
 import com.ffnunes.learning_management_api.controllers.resources.request.EditarTarefaRequest;
+import com.ffnunes.learning_management_api.domain.Tarefa;
+import com.ffnunes.learning_management_api.usecases.TarefaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,18 +17,26 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TarefaController {
 
+    private final TarefaService tarefaService;
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Tarefa findOne(@PathVariable final Long id) {
+        return tarefaService.findById(id);
+    }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editar(
             @PathVariable final Long id,
             @RequestBody @Valid final EditarTarefaRequest body) {
-        //TODO: tarefaService.editar(id, body.toDomain())
+        tarefaService.editar(id, body.toDomain());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void remover(@PathVariable final Long id) {
-        //TODO: tarefaService.remover(id);
+        tarefaService.delete(id);
     }
 
     @PatchMapping("/{id}/incrementar-tempo-gasto")

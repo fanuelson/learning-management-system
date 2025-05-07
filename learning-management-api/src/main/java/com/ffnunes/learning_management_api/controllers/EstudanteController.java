@@ -6,6 +6,7 @@ import com.ffnunes.learning_management_api.controllers.resources.response.CriarE
 import com.ffnunes.learning_management_api.domain.Curso;
 import com.ffnunes.learning_management_api.domain.Estudante;
 import com.ffnunes.learning_management_api.domain.Matricula;
+import com.ffnunes.learning_management_api.domain.Tarefa;
 import com.ffnunes.learning_management_api.usecases.EstudanteService;
 import com.ffnunes.learning_management_api.usecases.MatriculaService;
 import jakarta.validation.Valid;
@@ -69,8 +70,19 @@ public class EstudanteController {
                 .estudanteId(estudanteId)
                 .cursoId(cursoId)
                 .build();
-        //TODO: tarefaService.criar(matricula, tarefa)
-        // retornar idTarefa
+        matriculaService.criarTarefa(body.toDomain().withMatricula(matricula));
+    }
+
+    @GetMapping("/{estudanteId}/cursos/{cursoId}/tarefas")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<Tarefa> findAllTarefas(
+            @PathVariable final Long estudanteId,
+            @PathVariable final Long cursoId) {
+        final var matricula = Matricula.builder()
+                .estudanteId(estudanteId)
+                .cursoId(cursoId)
+                .build();
+        return matriculaService.findAllTarefas(matricula);
     }
 
 }

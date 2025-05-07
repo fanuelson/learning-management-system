@@ -1,6 +1,5 @@
 package com.ffnunes.learning_management_api.gateways.h2;
 
-import com.ffnunes.learning_management_api.domain.CategoriaTarefa;
 import com.ffnunes.learning_management_api.gateways.CategoriaTarefaDataGateway;
 import com.ffnunes.learning_management_api.gateways.h2.entities.CategoriaTarefaEntity;
 import com.ffnunes.learning_management_api.gateways.h2.repositories.CategoriaTarefaRepository;
@@ -18,7 +17,7 @@ public class CategoriaTarefaDataGatewayImpl implements CategoriaTarefaDataGatewa
 
 
     @Override
-    public List<CategoriaTarefa> findAll() {
-        return repository.findAll().stream().map(CategoriaTarefaEntity::toDomain).toList();
+    public List<String> findAll() {
+        return repository.findAll().stream().map(CategoriaTarefaEntity::getNome).toList();
     }
 }
