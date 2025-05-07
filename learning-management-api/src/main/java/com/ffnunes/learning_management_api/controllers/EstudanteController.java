@@ -3,8 +3,10 @@ package com.ffnunes.learning_management_api.controllers;
 import com.ffnunes.learning_management_api.controllers.resources.request.CriarEstudanteRequest;
 import com.ffnunes.learning_management_api.controllers.resources.request.CriarTarefaRequest;
 import com.ffnunes.learning_management_api.controllers.resources.response.CriarEstudanteResponse;
+import com.ffnunes.learning_management_api.domain.Curso;
+import com.ffnunes.learning_management_api.domain.Estudante;
 import com.ffnunes.learning_management_api.domain.Matricula;
-import com.ffnunes.learning_management_api.usecases.CriarEstudante;
+import com.ffnunes.learning_management_api.usecases.EstudanteService;
 import com.ffnunes.learning_management_api.usecases.MatriculaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Validated
 @RestController
@@ -20,13 +24,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class EstudanteController {
 
-    private final CriarEstudante criarEstudante;
+    private final EstudanteService estudanteService;
     private final MatriculaService matriculaService;
+
+    @GetMapping("/{email}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Estudante findByEmail(@PathVariable final String email) {
+        return estudanteService.findByEmail(email);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CriarEstudanteResponse criar(@RequestBody @Valid final CriarEstudanteRequest body) {
-        final var estudante = criarEstudante.execute(body.toDomain());
+    public CriarEstudanteResponse findByEmail(@RequestBody @Valid final CriarEstudanteRequest body) {
+        final var estudante = estudanteService.criar(body.toDomain());
         return CriarEstudanteResponse.create(estudante);
     }
 
@@ -41,6 +51,12 @@ public class EstudanteController {
                         .cursoId(cursoId)
                         .build()
         );
+    }
+
+    @GetMapping("/{estudanteId}/cursos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<Curso> findCursosMatriculados(@PathVariable final Long estudanteId) {
+        return matriculaService.findAllCursosMatriculados(estudanteId);
     }
 
     @PostMapping("/{estudanteId}/cursos/{cursoId}/tarefas")

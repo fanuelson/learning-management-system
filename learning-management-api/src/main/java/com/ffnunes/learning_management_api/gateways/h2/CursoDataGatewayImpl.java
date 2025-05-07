@@ -37,4 +37,9 @@ public class CursoDataGatewayImpl implements CursoDataGateway {
         return repository.findAll().stream().map(CursoEntity::toDomain).toList();
     }
 
+    @Override
+    public List<Curso> findAllByIds(final List<Long> ids) {
+        return repository.findAllById(ids).stream().map(CursoEntity::toDomain).toList();
+    }
+
 }

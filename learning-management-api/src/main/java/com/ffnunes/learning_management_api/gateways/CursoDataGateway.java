@@ -13,4 +13,6 @@ public interface CursoDataGateway {
     Optional<Curso> findByNomeAndDeletado(final String nome, final boolean deletado);
 
     List<Curso> findAll();
+
+    List<Curso> findAllByIds(final List<Long> ids);
 }

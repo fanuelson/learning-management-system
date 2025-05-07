@@ -45,6 +45,10 @@ public class CursoService {
         return this.cursoDataGateway.findAll();
     }
 
+    public List<Curso> findAllByIds(final List<Long> ids) {
+        return this.cursoDataGateway.findAllByIds(ids);
+    }
+
     private void validateNomeExists(final String nome) {
         cursoDataGateway.findByNomeAndDeletado(nome, false)
                 .ifPresent(cursoSalvo -> {

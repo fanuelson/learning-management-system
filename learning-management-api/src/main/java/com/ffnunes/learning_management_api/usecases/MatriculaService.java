@@ -1,5 +1,6 @@
 package com.ffnunes.learning_management_api.usecases;
 
+import com.ffnunes.learning_management_api.domain.Curso;
 import com.ffnunes.learning_management_api.domain.Matricula;
 import com.ffnunes.learning_management_api.gateways.MatriculaDataGateway;
 import lombok.RequiredArgsConstructor;
@@ -23,4 +24,11 @@ public class MatriculaService {
 
         matriculaDataGateway.save(matricula);
     }
+
+    public List<Curso> findAllCursosMatriculados(final Long estudanteId) {
+        final var matriculas = matriculaDataGateway.findAllByEstudanteId(estudanteId);
+        final var cursosIds = matriculas.stream().map(Matricula::getCursoId).toList();
+        return cursoService.findAllByIds(cursosIds);
+    }
+
 }
