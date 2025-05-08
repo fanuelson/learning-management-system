@@ -44,7 +44,7 @@ export class TarefaListComponent implements OnInit, AfterViewInit {
 
     tarefas = signal<any[]>([]);
     dataSource = signal<MatTableDataSource<any>>(new MatTableDataSource([]));
-    displayedColumns = ['categoriaTarefa', 'descricao', 'actions'];
+    displayedColumns = ['categoriaTarefa', 'descricao', 'tempoGasto', 'actions'];
     loading = signal<boolean>(false);
 
     // Pagination related signals
@@ -68,12 +68,12 @@ export class TarefaListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    loadTarefas(): void {
+    loadTarefas(refresh = false): void {
         this.loading.set(true);
         const estudanteId = this.activatedRoute.snapshot.paramMap.get("estudanteId");
         const cursoId = this.activatedRoute.snapshot.paramMap.get("cursoId");
         const data = this.activatedRoute.snapshot.data['tarefas']
-        if(data) {
+        if(data && !refresh) {
             this.setTarefasAndDataSource(data);
         } else {
             this.matriculaService.getAllTarefas(estudanteId, cursoId).subscribe({
@@ -137,5 +137,18 @@ export class TarefaListComponent implements OnInit, AfterViewInit {
                 }
             });
         }
+    }
+
+    adicionarTempoGasto(id) {
+        this.tarefaService.adicionarTempoGasto(id)
+        .subscribe({
+            next: (data) => {
+                this.notificationService.success('Ok');
+                this.loadTarefas(true);
+            },
+            error: (error) => {
+                this.notificationService.error(`Erro: ${error.error?.errors}`);
+            }
+        });
     }
 }

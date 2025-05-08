@@ -114,9 +114,8 @@ export class ThemeService {
 
         if (savedTheme) {
           this.setTheme(savedTheme as ThemeName);
-        } else if (prefersDark) {
-          this.setTheme('dark');
         }
+        this.setTheme('light');
 
         if (savedColor) {
           this.themeColor.set(savedColor as ThemeColor);
@@ -126,7 +125,7 @@ export class ThemeService {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
           // Only update if user hasn't explicitly set a preference
           if (!localStorage.getItem('theme')) {
-            this.setTheme(e.matches ? 'dark' : 'light');
+            this.setTheme(e.matches ? 'light' : 'light');
           }
         });
       } catch (error) {

@@ -2,21 +2,12 @@
   <!-- Header -->
   <div class="max-w-6xl mx-auto mb-6 bg-primary text-white rounded-lg shadow-sm overflow-hidden transition-all duration-300">
     <div class="p-6 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Cursos</h1>
+      <h1 class="text-2xl font-bold">Cursos matriculados</h1>
       <button mat-raised-button color="accent" routerLink="/cursos/create" *hasRole="['ADMIN']">
         <mat-icon class="mr-2">add</mat-icon>
         Registrar curso
       </button>
     </div>
-  </div>
-
-  <!-- Search and Filters -->
-  <div class="max-w-6xl mx-auto mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 transition-all duration-300">
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>Filtrar cursos</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Nome, data de inicio" #input>
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
   </div>
 
   <!-- Table Container -->
@@ -62,7 +53,7 @@
       <!-- No Results Row -->
       <tr class="mat-row" *matNoDataRow>
         <td class="px-6 py-4 text-center text-on-surface-variant" [attr.colspan]="displayedColumns.length">
-          Nenhum curso encontrado para "{{input.value}}"
+          Nenhum curso matriculado 
         </td>
       </tr>
     </table>

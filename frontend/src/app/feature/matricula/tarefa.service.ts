@@ -37,6 +37,15 @@ export class TarefaService {
       );
   }
 
+  adicionarTempoGasto(id: any, tempoGastoEmMinutos = 30) {
+    return this.http
+      .patch(environment.apiEndpoint + `/tarefas/${id}/tempo-gasto`, {tempoGastoEmMinutos})
+      .pipe(
+        map((res: any) => res),
+        catchError(this.handleErrorObservable)
+      );
+  }
+
   showNotification(message: string, isError = false) {
     this.snackBar.open(message, 'Close', {
       duration: 3000,
