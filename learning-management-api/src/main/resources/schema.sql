@@ -51,10 +51,10 @@ CREATE TABLE IF NOT EXISTS TAREFA (
             REFERENCES CATEGORIA_TAREFA(nome)
 );
 
---delete from categoria_tarefa;
---insert into categoria_tarefa (nome) values ('PESQUISA');
---insert into categoria_tarefa (nome) values ('PRATICA');
---insert into categoria_tarefa (nome) values ('ASSISTIR_VIDEOAULA');
+delete from categoria_tarefa;
+insert into categoria_tarefa (nome) values ('PESQUISA');
+insert into categoria_tarefa (nome) values ('PRATICA');
+insert into categoria_tarefa (nome) values ('ASSISTIR_VIDEOAULA');
 --
 --delete from curso where id > 0;
 --insert into curso (data_inicio, data_conclusao, deletado, nome)
