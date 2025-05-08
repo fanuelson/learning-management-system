@@ -1,5 +1,14 @@
 # learning-management-system
 
+![Java Badge](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot Badge](https://img.shields.io/badge/Spring_Boot-3.2.3-darkgreen)
+
+## Prerequisites
+
+- Docker
+- Docker compose
+
+## Run
 ```
 docker compose up -d
 ```
