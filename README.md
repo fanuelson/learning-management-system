@@ -16,3 +16,8 @@ http://localhost:8080/h2-console
 JDBC URL: jdbc:h2:file:./db/lms-db
 
 User Name: adm
+
+
+### Schema
+
+![alt text](image.png)
