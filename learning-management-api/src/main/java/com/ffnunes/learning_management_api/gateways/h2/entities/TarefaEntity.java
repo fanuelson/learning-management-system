@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "tarefa")
@@ -30,9 +31,9 @@ public class TarefaEntity {
 
     private String descricao;
 
-    //TODO: dúvida, pq dateTime? Como assim registrar de 30 em 30 min?
-//    @Column(name = "tempo_gasto")
-//    private LocalDateTime tempoGasto;
+    @Column(name = "tempo_gasto")
+    private LocalTime tempoGasto;
+
 
     public static TarefaEntity create(final Tarefa tarefa) {
         final var matriculaId = MatriculaId.builder()
@@ -45,6 +46,7 @@ public class TarefaEntity {
                 .categoriaTarefa(new CategoriaTarefaEntity(tarefa.getCategoriaTarefa()))
                 .data(tarefa.getData())
                 .descricao(tarefa.getDescricao())
+                .tempoGasto(tarefa.getTempoGasto())
                 .build();
     }
 
@@ -55,6 +57,7 @@ public class TarefaEntity {
                 .categoriaTarefa(categoriaTarefa.getNome())
                 .data(data)
                 .descricao(descricao)
+                .tempoGasto(tempoGasto)
                 .build();
     }
 }

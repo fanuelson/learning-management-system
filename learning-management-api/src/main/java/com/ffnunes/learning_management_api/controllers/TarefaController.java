@@ -1,6 +1,7 @@
 package com.ffnunes.learning_management_api.controllers;
 
 import com.ffnunes.learning_management_api.controllers.resources.request.EditarTarefaRequest;
+import com.ffnunes.learning_management_api.controllers.resources.request.TempoGastoRequest;
 import com.ffnunes.learning_management_api.domain.Tarefa;
 import com.ffnunes.learning_management_api.usecases.TarefaService;
 import jakarta.validation.Valid;
@@ -39,10 +40,10 @@ public class TarefaController {
         tarefaService.delete(id);
     }
 
-    @PatchMapping("/{id}/incrementar-tempo-gasto")
+    @PatchMapping("/{id}/tempo-gasto")
     @ResponseStatus(HttpStatus.OK)
-    public void incrementarTempoGasto(@PathVariable final Long id) {
-        //TODO: tarefaService.incrementarTempoGasto(id, 30)
+    public Tarefa incrementarTempoGasto(@PathVariable final Long id, @RequestBody final TempoGastoRequest body) {
+        return tarefaService.registrarTempoGasto(id, body.tempoGastoEmMinutos());
     }
 
 }

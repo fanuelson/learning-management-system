@@ -4,6 +4,8 @@ import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 @Data
 @With
@@ -16,6 +18,7 @@ public class Tarefa {
     private String categoriaTarefa;
     private LocalDate data;
     private String descricao;
+    private LocalTime tempoGasto;
 
     public Tarefa merge(final Tarefa tarefa) {
         descricao = StringUtils.isBlank(tarefa.getDescricao()) ? descricao : tarefa.getDescricao();

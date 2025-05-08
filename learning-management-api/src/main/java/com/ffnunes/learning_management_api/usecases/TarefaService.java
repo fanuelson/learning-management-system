@@ -24,4 +24,9 @@ public class TarefaService {
     public Tarefa findById(final Long id) {
         return tarefaDataGateway.findById(id).orElseThrow(() -> new NotFoundException("Tarefa não encontrada"));
     }
+
+    public Tarefa registrarTempoGasto(final Long id, final long tempoGastoEmMinutos) {
+        final var tarefa = this.findById(id);
+        return this.tarefaDataGateway.save(tarefa.withTempoGasto(tarefa.getTempoGasto().plusMinutes(tempoGastoEmMinutos)));
+    }
 }

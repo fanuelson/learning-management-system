@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 public class CriarTarefaRequest {
@@ -24,6 +25,7 @@ public class CriarTarefaRequest {
                 .data(data)
                 .categoriaTarefa(categoriaTarefa)
                 .descricao(descricao)
+                .tempoGasto(LocalTime.MIN)
                 .build();
     }
 }
